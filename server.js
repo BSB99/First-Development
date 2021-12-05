@@ -54,7 +54,8 @@ app.post('/add', (req, res) => {
         // 게시물 번호를 db에 전달하는것을 추가하였다.
         db.collection('Post').insertOne({ _id : number + 1, 날짜 : req.body.date, 제목 : req.body.title}, (error, result) => {
             console.log('Save Complet');
-            // counter 라는 콜렉션에 있는 totalPost라는 항목 1 증가
+            // counter 라는 콜렉션에 있는 totalPost라는 항목 1 증가 (수정);
+            // $inc = 증가, $set = 변경
             db.collection('counter').updateOne({name:'게시물갯수'},{ $inc : {totalPost:1} }, (error, result) => {
                 if(error) return console.log(error);
             });   
@@ -72,4 +73,8 @@ app.get('/list', (req,res) => {
         console.log(result);
         res.render('list.ejs', { posts : result });
     });
+});
+
+app.delete('/delete', (req,res) => {
+    console.log(req.body)
 });
